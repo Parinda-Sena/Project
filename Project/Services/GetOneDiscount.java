@@ -5,8 +5,9 @@ import java.util.List;
     /*
      * ส่วนลดซื้อ 1 แถม 1
      */
-public class GetOneDiscount extends Discount{
+public class GetOneDiscount implements Discount{
 
+    @Override
     public double applyDiscount(double totalPrice) {
         return totalPrice / 2;       
     }
@@ -32,4 +33,6 @@ public class GetOneDiscount extends Discount{
         return sum;
     }
 }
+
+
 
