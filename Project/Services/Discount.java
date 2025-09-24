@@ -1,6 +1,7 @@
 package Services;
-public class Discount{
-    /*
+     /*
      * ส่วนลด
      */
+public interface Discount{
+    double applyDiscount(double totalPrice);
 }
