@@ -1,11 +1,30 @@
-package Services;
+import java.util.Scanner;
 
-public class OneHundredOffDiscount extends Discount{
-    /*
-     * ส่วนลด 100 สำหรับการสั่งซื้อขั้นต่ำ 250 บาท
-     */
-    @Override
-    public double applyDiscount(double price) {
-        return Math.max(price - 100, 0); // ลด 100 บาท แต่ไม่ให้ราคาเป็นค่าลบ
+public class OneHundredDiscount {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get the original price from the user
+        System.out.print("Enter the original price of the item: ");
+        double originalPrice = scanner.nextDouble();
+
+        // Define the 100% discount rate
+        double discountPercentage = 100.0;
+
+        // Calculate the discount amount
+        double discountAmount = originalPrice * (discountPercentage / 100);
+
+        // Calculate the final price after the discount
+        double finalPrice = originalPrice - discountAmount;
+
+        // Print the results
+        System.out.println("\nOriginal Price: $" + originalPrice);
+        System.out.println("Discount Percentage: " + discountPercentage + "%");
+        System.out.println("Discount Amount: $" + discountAmount);
+        System.out.println("Final Price: $" + finalPrice);
+
+        scanner.close();
     }
 }
+
+
