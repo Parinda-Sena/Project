@@ -130,9 +130,9 @@ public class Admin {
         int id = sc.nextInt();
 
         if (menu.remove(id) != null) {
-            System.out.println("🗑️ Food item deleted successfully!");
+            System.out.println("Food item deleted successfully!");
         } else {
-            System.out.println("❌ Item not found!");
+            System.out.println("Item not found!");
         }
     }
 
@@ -148,4 +148,5 @@ public class Admin {
         }
     }
 }
+
 
