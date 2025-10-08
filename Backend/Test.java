@@ -26,6 +26,7 @@ public class Test {
         PricingService pricing = new PricingService();
         pricing.addDiscountStrategy(new Getone());         // Buy 1 Get 1
         pricing.addDiscountStrategy(new OnehundredOff());  // 100 off if total >= 250
+        pricing.addDiscountStrategy(new NewUser(null)); // NewUser get 10% off
 
         // 4. Create a FoodCart
         FoodCart cart = new FoodCart(menu, pricing);
@@ -45,3 +46,4 @@ public class Test {
 
     }
 }
+
