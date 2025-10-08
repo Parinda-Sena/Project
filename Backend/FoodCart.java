@@ -59,7 +59,7 @@ public class FoodCart {
     }
 
     // ✅ สำหรับกำหนดส่วนลดเพิ่มเติม (ถ้าต้องการ)
-    public void addDiscount(Backend.Discount.DiscountStrategy discount) {
+    public void addDiscount(DiscountStrategy discount) {
         pricingService.addDiscountStrategy(discount);
     }
 
@@ -68,4 +68,5 @@ public class FoodCart {
         throw new UnsupportedOperationException("Unimplemented method 'getItems'");
     }
 }
+
 
