@@ -14,7 +14,7 @@ import Backend.Food;
 
 public class Appetizire {
     private final FoodCart cart; // ใช้ cart เดียวกับ MainMenu
-    //  เปลี่ยนค่า ID เหล่านี้ให้ตรงกับไฟล์ CSV
+    //  อ่าน ID จากไฟล์ CSV
     private static final String FOOD_ID_fry = "01"; // เฟรนฟราย
     private static final String FOOD_ID_cp = "02"; // ไก่ป๊อบ
     private static final String FOOD_ID_cn = "03"; // นักเก็ต
@@ -377,3 +377,4 @@ public class Appetizire {
     }
     
 }
+
