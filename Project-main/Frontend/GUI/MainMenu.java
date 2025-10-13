@@ -17,7 +17,7 @@ public class MainMenu {
     private final PricingService pricingService;
     private final FoodCart cart;
 
-    // TODO: เปลี่ยนค่า ID เหล่านี้ให้ตรงกับไฟล์ CSV
+    // อ่าน ค่า ID จากไฟล์ CSV
     private static final String FOOD_ID_PWS = "13"; // ผัดกะเพรา
     private static final String FOOD_ID_SFR = "10"; // ข้าวผัดทะเล
     private static final String FOOD_ID_TYG = "12"; // ต้มยำกุ้ง
@@ -197,6 +197,21 @@ public class MainMenu {
         mainmenu.add(pwsLB);
         mainmenu.add(pwsBTN);
 
+          // ติด listener ให้ปุ่มรูป (ใช้ ID เพื่อเพิ่มเข้า cart)
+        pwsBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cart.addFood(FOOD_ID_PWS, 1);
+                    JOptionPane.showMessageDialog(mainmenu, "Added to cart.");
+                } catch (ProductNotFoundException ex) {
+                    JOptionPane.showMessageDialog(mainmenu, "Product ID not found: " + FOOD_ID_PWS, "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidOperationException ex) {
+                    JOptionPane.showMessageDialog(mainmenu, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         // ข้าวผัดทะเล
         JButton sfrBTN = new JButton();
         sfrBTN.setBounds(220, 290, 150, 100);
@@ -213,21 +228,6 @@ public class MainMenu {
         sfrBTN.setFocusPainted(false);
         mainmenu.add(sfrLB);
         mainmenu.add(sfrBTN);
-
-        // ติด listener ให้ปุ่มรูป (ใช้ ID เพื่อเพิ่มเข้า cart)
-        pwsBTN.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    cart.addFood(FOOD_ID_PWS, 1);
-                    JOptionPane.showMessageDialog(mainmenu, "Added to cart.");
-                } catch (ProductNotFoundException ex) {
-                    JOptionPane.showMessageDialog(mainmenu, "Product ID not found: " + FOOD_ID_PWS, "Error", JOptionPane.ERROR_MESSAGE);
-                } catch (InvalidOperationException ex) {
-                    JOptionPane.showMessageDialog(mainmenu, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
 
         sfrBTN.addActionListener(new ActionListener() {
             @Override
@@ -334,3 +334,4 @@ cartBTN.addActionListener(new ActionListener() {
         mainmenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
+
