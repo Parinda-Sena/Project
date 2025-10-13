@@ -3,10 +3,32 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Appetizire 
-{
-    public Appetizire()
-    {
+import Backend.FoodCart;
+import Backend.PricingService;
+import Backend.TotalFood;
+import Backend.Discount.InvalidOperationException;
+import Backend.Discount.ProductNotFoundException;
+import Backend.AllFood;
+import Backend.Food;
+
+
+public class Appetizire {
+    private final FoodCart cart; // ใช้ cart เดียวกับ MainMenu
+    //  เปลี่ยนค่า ID เหล่านี้ให้ตรงกับไฟล์ CSV
+    private static final String FOOD_ID_fry = "01"; // เฟรนฟราย
+    private static final String FOOD_ID_cp = "02"; // ไก่ป๊อบ
+    private static final String FOOD_ID_cn = "03"; // นักเก็ต
+    private static final String FOOD_ID_blc = "04"; // ไก่ไม่มีกระดูก
+    private static final String FOOD_ID_enoki = "05"; // เห็ดเข็มทองทอด
+    private static final String FOOD_ID_shrimptemp = "06"; // กุ้งเทมปุระ
+    private static final String FOOD_ID_onion = "07"; // หอมทอด
+    private static final String FOOD_ID_rss = "08"; // ไส้กรอกแดง
+
+    public Appetizire(){
+       if (MainMenu.cart == null) {
+            MainMenu.cart = new FoodCart(new AllFood(), new PricingService());
+        }
+        this.cart = MainMenu.cart;
         JFrame Appetizier = new JFrame("Meow Ordering");
         Appetizier.setSize(400, 700);
         Appetizier.setIconImage(
@@ -58,9 +80,6 @@ public class Appetizire
                 }
         });
 
-
-        
-
         // JScrollPane เฉพาะแนวตั้ง
         JScrollPane scrollPane = new JScrollPane(contentPanel,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -86,6 +105,20 @@ public class Appetizire
         contentPanel.add(fryLB);
         contentPanel.add(fryBTN);
 
+         fryBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cart.addFood(FOOD_ID_fry, 1);
+                    JOptionPane.showMessageDialog(Appetizier, "Added to cart.");
+                } catch (ProductNotFoundException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Product ID not found: " + FOOD_ID_fry, "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidOperationException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         //ไก่ป๊อบ
         JButton cpBTN = new JButton();
         cpBTN.setBounds(205, 100, 150, 100);
@@ -103,6 +136,20 @@ public class Appetizire
         cpBTN.setFocusPainted(false);
         contentPanel.add(cpLB);
         contentPanel.add(cpBTN);
+
+         cpBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cart.addFood(FOOD_ID_cp, 1);
+                    JOptionPane.showMessageDialog(Appetizier, "Added to cart.");
+                } catch (ProductNotFoundException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Product ID not found: " + FOOD_ID_cp, "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidOperationException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
         // นักเก็ต
         JButton cnBTN = new JButton();
@@ -122,6 +169,20 @@ public class Appetizire
         contentPanel.add(cnLB);
         contentPanel.add(cnBTN);
 
+        cnBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cart.addFood(FOOD_ID_cn, 1);
+                    JOptionPane.showMessageDialog(Appetizier, "Added to cart.");
+                } catch (ProductNotFoundException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Product ID not found: " + FOOD_ID_cn, "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidOperationException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         // ไก่ไม่มีกระดูก
         JButton blcBTN = new JButton();
         blcBTN.setBounds(205, 260, 150, 100);
@@ -139,6 +200,20 @@ public class Appetizire
         blcBTN.setFocusPainted(false);
         contentPanel.add(blcLB);
         contentPanel.add(blcBTN);
+
+        blcBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cart.addFood(FOOD_ID_blc, 1);
+                    JOptionPane.showMessageDialog(Appetizier, "Added to cart.");
+                } catch (ProductNotFoundException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Product ID not found: " + FOOD_ID_blc, "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidOperationException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
         // เห็ดเข็มทองทอด
         JButton enokiBTN = new JButton();
@@ -158,6 +233,20 @@ public class Appetizire
         contentPanel.add(enokiLB);
         contentPanel.add(enokiBTN);
 
+        enokiBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cart.addFood(FOOD_ID_enoki, 1);
+                    JOptionPane.showMessageDialog(Appetizier, "Added to cart.");
+                } catch (ProductNotFoundException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Product ID not found: " + FOOD_ID_enoki, "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidOperationException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         //กุ้งเทมปุระ
         JButton shrimptempBTN = new JButton();
         shrimptempBTN.setBounds(205, 420, 150, 100);
@@ -175,6 +264,20 @@ public class Appetizire
         shrimptempBTN.setFocusPainted(false);
         contentPanel.add(shrimptempLB);
         contentPanel.add(shrimptempBTN);
+
+        shrimptempBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cart.addFood(FOOD_ID_shrimptemp, 1);
+                    JOptionPane.showMessageDialog(Appetizier, "Added to cart.");
+                } catch (ProductNotFoundException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Product ID not found: " + FOOD_ID_shrimptemp, "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidOperationException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
         //onion ring
         JButton onionBTN = new JButton();
@@ -194,6 +297,22 @@ public class Appetizire
         contentPanel.add(onionLB);
         contentPanel.add(onionBTN);
 
+        onionBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cart.addFood(FOOD_ID_onion, 1);
+                    JOptionPane.showMessageDialog(Appetizier, "Added to cart.");
+                } catch (ProductNotFoundException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Product ID not found: " + FOOD_ID_onion, "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidOperationException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+
+
         //ไส้กรอกแดงทอด
         JButton rssBTN = new JButton();
         rssBTN.setBounds(205, 590, 150, 100);
@@ -211,6 +330,19 @@ public class Appetizire
         rssBTN.setFocusPainted(false);
         contentPanel.add(rssLB);
         contentPanel.add(rssBTN);
+        rssBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cart.addFood(FOOD_ID_rss, 1);
+                    JOptionPane.showMessageDialog(Appetizier, "Added to cart.");
+                } catch (ProductNotFoundException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Product ID not found: " + FOOD_ID_rss, "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidOperationException ex) {
+                    JOptionPane.showMessageDialog(Appetizier, "Cannot add product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
         // ปุ่มตะกร้าสินค้า
         JButton cartBTN = new JButton();
@@ -233,7 +365,7 @@ public class Appetizire
                 @Override
                 public void actionPerformed(ActionEvent e) {
                         // เปิดหน้า CartUI
-                        new CartUI();
+                        new CartUI(cart);
                         Appetizier.dispose();
 
                 }
