@@ -18,9 +18,9 @@ public class CartUI {
     private final JPanel itemPanal;
 
     // Labels สำหรับแสดงยอด
-    private final JLabel totalLabelValue;    // แทนที่ "Subtotals for order : " ด้านบน
-    private final JLabel discountLabelValue; // แทนที่ "Discount : "
-    private final JLabel finalLabelValue;    // แทนที่ "Total : "
+    private final JLabel totalLabelValue;    // Subtotals for order : "
+    private final JLabel discountLabelValue; // Discount : "
+    private final JLabel finalLabelValue;    // Total : 
 
     public CartUI(FoodCart cart) {
         this.cart = cart;
@@ -256,3 +256,4 @@ public class CartUI {
         });
     }
 }
+
