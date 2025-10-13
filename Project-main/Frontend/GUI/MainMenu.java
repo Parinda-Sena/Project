@@ -17,10 +17,10 @@ public class MainMenu {
     private final PricingService pricingService;
     private final FoodCart cart;
 
-    // TODO: เปลี่ยนค่า ID เหล่านี้ให้ตรงกับไฟล์ CSV ของคุณ
-    private static final String FOOD_ID_PWS = "01"; // ผัดกะเพรา
-    private static final String FOOD_ID_SFR = "02"; // ข้าวผัดทะเล
-    private static final String FOOD_ID_TYG = "03"; // ต้มยำกุ้ง
+    // TODO: เปลี่ยนค่า ID เหล่านี้ให้ตรงกับไฟล์ CSV
+    private static final String FOOD_ID_PWS = "13"; // ผัดกะเพรา
+    private static final String FOOD_ID_SFR = "10"; // ข้าวผัดทะเล
+    private static final String FOOD_ID_TYG = "12"; // ต้มยำกุ้ง
     private static final String FOOD_ID_OMR = "09"; // ไข่เจียว / ข้าวไข่เจียว
 
     public MainMenu() {
