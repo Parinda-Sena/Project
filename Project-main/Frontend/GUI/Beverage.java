@@ -12,7 +12,7 @@ import Backend.AllFood;
 public class Beverage {
     private final FoodCart cart; // ใช้ cart เดียวกับ MainMenu
 
-    //  เปลี่ยนค่า ID เหล่านี้ให้ตรงกับไฟล์ CSV
+    //  อ่าน ID จากไฟล์ CSV
     private static final String FOOD_ID_water = "33"; // น้ำเปล่า
     private static final String FOOD_ID_coffee = "34"; // กาแฟ
     private static final String FOOD_ID_strawsoda = "35"; // สตอเบอร์รี่โซดา
@@ -488,3 +488,4 @@ public class Beverage {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
+
