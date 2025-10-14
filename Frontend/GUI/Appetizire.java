@@ -1,12 +1,24 @@
 package GUI;
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
 
-public class Appetizire 
-{
-    public Appetizire()
-    {
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import Backend.CartStore;
+import Backend.Food;
+import Backend.FoodCart;
+
+import Backend.Discount.InvalidOperationException;
+import Backend.Discount.ProductNotFoundException;
+import Backend.AllFood;
+
+public class Appetizire {
+    private final FoodCart cart = CartStore.getCart();
+    private AllFood allFood; // ใช้ cart เดียวกับ MainMenu
+
+    public Appetizire(String username) {
+        // ✅ โหลดข้อมูลอาหารจากคลาส AllFood (ซึ่งอ่าน CSV มาแล้ว)
+        allFood = new AllFood();
+
         JFrame Appetizier = new JFrame("Meow Ordering");
         Appetizier.setSize(400, 700);
         Appetizier.setIconImage(
@@ -17,7 +29,6 @@ public class Appetizire
         Appetizier.setLayout(null);
         Appetizier.setResizable(false);
         Appetizier.setLocationRelativeTo(null);
-        
 
         // Panel สำหรับใส่ component ทั้งหมด
         JPanel contentPanel = new JPanel(null);
@@ -25,7 +36,7 @@ public class Appetizire
         contentPanel.setPreferredSize(new Dimension(380, 1200)); // ✅ กำหนดขนาดที่ต้องการให้ใหญ่กว่า JFrame
 
         // Label "Appetizier"
-        JLabel mainLabel = new JLabel("Appetizier", SwingConstants.CENTER);
+        JLabel mainLabel = new JLabel("Appetizer", SwingConstants.CENTER);
         mainLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         mainLabel.setForeground(Color.WHITE);
         mainLabel.setOpaque(true);
@@ -49,17 +60,14 @@ public class Appetizire
 
         // กดแล้วไปหน้า Mainmenu
         backBTN.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        // เปิดหน้า CartUI
-                        new MainMenu();
-                        Appetizier.dispose();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // เปิดหน้า CartUI
+                new MainMenu(username);
+                Appetizier.dispose();
 
-                }
+            }
         });
-
-
-        
 
         // JScrollPane เฉพาะแนวตั้ง
         JScrollPane scrollPane = new JScrollPane(contentPanel,
@@ -68,7 +76,7 @@ public class Appetizire
         scrollPane.getViewport().setBackground(new Color(255, 255, 204)); // ✅ ให้ viewport เป็นสีเดียวกัน
         scrollPane.setBorder(null); // ถ้าไม่อยากให้มีขอบ
 
-        //เฟรนฟราย
+        // เฟรนฟราย
         JButton fryBTN = new JButton();
         fryBTN.setBounds(20, 100, 150, 100);
         ImageIcon fryicon = new ImageIcon(
@@ -86,7 +94,33 @@ public class Appetizire
         contentPanel.add(fryLB);
         contentPanel.add(fryBTN);
 
-        //ไก่ป๊อบ
+        fryBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("01"); // ดึงข้อมูลรหัสสินค้า
+                if (food != null && !food.isAvailable()) { // เช็คกับ allFood ที่อยู่ใน AdminUI ถ้า isAvailable() == false จะไม่ขายแล้วไม่ return อะไรกลับ
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("French Fries"); // หารหัสอาหารโดยใช้ชื่อ
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        
+
+        // ไก่ป๊อบ
         JButton cpBTN = new JButton();
         cpBTN.setBounds(205, 100, 150, 100);
         ImageIcon cpicon = new ImageIcon(
@@ -103,6 +137,31 @@ public class Appetizire
         cpBTN.setFocusPainted(false);
         contentPanel.add(cpLB);
         contentPanel.add(cpBTN);
+
+        cpBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("02");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Chicken Pop");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         // นักเก็ต
         JButton cnBTN = new JButton();
@@ -122,6 +181,31 @@ public class Appetizire
         contentPanel.add(cnLB);
         contentPanel.add(cnBTN);
 
+        cnBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("03");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Chicken Nuggets");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         // ไก่ไม่มีกระดูก
         JButton blcBTN = new JButton();
         blcBTN.setBounds(205, 260, 150, 100);
@@ -140,11 +224,36 @@ public class Appetizire
         contentPanel.add(blcLB);
         contentPanel.add(blcBTN);
 
+        blcBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("04");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Boneless Chicken");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         // เห็ดเข็มทองทอด
         JButton enokiBTN = new JButton();
         enokiBTN.setBounds(20, 420, 150, 100);
         ImageIcon enokiicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Appetizier\\เห็ดเข็มทองทอด.png");
+                ".\\Frontend\\Photo\\Appetizier\\เห็ดเข็มทองทอด.png");
         Image getENOKI = enokiicon.getImage();
         Image setENOKI = getENOKI.getScaledInstance(200, 180, Image.SCALE_SMOOTH);
         enokiBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -158,11 +267,36 @@ public class Appetizire
         contentPanel.add(enokiLB);
         contentPanel.add(enokiBTN);
 
-        //กุ้งเทมปุระ
+        enokiBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("05");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Crispy Deep Fries Enoki Mushroom");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // กุ้งเทมปุระ
         JButton shrimptempBTN = new JButton();
         shrimptempBTN.setBounds(205, 420, 150, 100);
         ImageIcon shrimptempicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Appetizier\\กุ้งเทมปุระ.png");
+                ".\\Frontend\\Photo\\Appetizier\\กุ้งเทมปุระ.png");
         Image getSHRIMPTEMP = shrimptempicon.getImage();
         Image setSHRIMPTEMP = getSHRIMPTEMP.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         shrimptempBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -176,11 +310,36 @@ public class Appetizire
         contentPanel.add(shrimptempLB);
         contentPanel.add(shrimptempBTN);
 
-        //onion ring
+        shrimptempBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("06");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Shrimp Tempura");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // onion ring
         JButton onionBTN = new JButton();
         onionBTN.setBounds(20, 590, 150, 100);
         ImageIcon onionicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Appetizier\\Onions ring.png");
+                ".\\Frontend\\Photo\\Appetizier\\Onions ring.png");
         Image getONION = onionicon.getImage();
         Image setONION = getONION.getScaledInstance(205, 215, Image.SCALE_SMOOTH);
         onionBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -194,11 +353,36 @@ public class Appetizire
         contentPanel.add(onionLB);
         contentPanel.add(onionBTN);
 
-        //ไส้กรอกแดงทอด
+        onionBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("07");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Onions Ring");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // ไส้กรอกแดงทอด
         JButton rssBTN = new JButton();
         rssBTN.setBounds(205, 590, 150, 100);
         ImageIcon rssicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Appetizier\\ไส้กรอกแดงทอด.png");
+                ".\\Frontend\\Photo\\Appetizier\\ไส้กรอกแดงทอด.png");
         Image getRSS = rssicon.getImage();
         Image setRSS = getRSS.getScaledInstance(230, 230, Image.SCALE_SMOOTH);
         rssBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -211,13 +395,37 @@ public class Appetizire
         rssBTN.setFocusPainted(false);
         contentPanel.add(rssLB);
         contentPanel.add(rssBTN);
+        rssBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("08");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Red Sausage Fried");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         // ปุ่มตะกร้าสินค้า
         JButton cartBTN = new JButton();
         cartBTN.setBounds(310, 20, 40, 40);
         cartBTN.setBackground(Color.WHITE); // ✅ ให้ปุ่มเข้ากับพื้นหลัง
         ImageIcon carticon = new ImageIcon(
-                        ".\\Frontend\\Photo\\other\\ตะกร้าสินค้า.png");
+                ".\\Frontend\\Photo\\other\\ตะกร้าสินค้า.png");
         Image getCART = carticon.getImage();
         Image setCART = getCART.getScaledInstance(cartBTN.getWidth(), cartBTN.getHeight(), Image.SCALE_SMOOTH);
         cartBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -230,18 +438,20 @@ public class Appetizire
 
         // กดแล้วไปหน้า CartUI
         cartBTN.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        // เปิดหน้า CartUI
-                        new CartUI();
-                        Appetizier.dispose();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // เปิดหน้า CartUI
+                new CartUI(cart, username);
+                Appetizier.dispose();
 
-                }
+            }
         });
 
+        
 
         Appetizier.setVisible(true);
         Appetizier.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
-    
+
 }

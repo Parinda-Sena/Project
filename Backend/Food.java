@@ -8,6 +8,7 @@ public class Food {
     private final String foodID;
     private final String foodname;
     private final double foodprice;
+    private boolean available = true;
     
     public Food(String foodID,String foodname,double foodprice) {
         this.foodID = foodID;
@@ -35,6 +36,15 @@ public class Food {
      */
     public String getfoodID() {
         return foodID;
+    }
+
+    // เพิ่ม getter/setter สำหรับ available
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     /**

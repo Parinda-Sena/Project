@@ -1,10 +1,25 @@
 package GUI;
+
 import java.awt.*;
 import javax.swing.*;
+
+import Backend.AllFood;
+import Backend.CartStore;
+import Backend.Food;
+import Backend.FoodCart;
+import Backend.Discount.InvalidOperationException;
+import Backend.Discount.ProductNotFoundException;
+
 import java.awt.event.*;
 
 public class Maincouse {
-    public Maincouse() {
+    private final FoodCart cart = CartStore.getCart();
+    private AllFood allFood;
+
+    public Maincouse(String username) {
+        // ✅ โหลดข้อมูลอาหารจากคลาส AllFood (ซึ่งอ่าน CSV มาแล้ว)
+        allFood = new AllFood();
+
         JFrame Maincouse = new JFrame("Meow Ordering");
         Maincouse.setSize(400, 700);
         Maincouse.setIconImage(
@@ -46,13 +61,13 @@ public class Maincouse {
 
         // กดแล้วไปหน้า Mainmenu
         backBTN.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        // เปิดหน้า CartUI
-                        new MainMenu();
-                        Maincouse.dispose();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // เปิดหน้า CartUI
+                new MainMenu(username);
+                Maincouse.dispose();
 
-                }
+            }
         });
 
         // JScrollPane เฉพาะแนวตั้ง
@@ -62,7 +77,7 @@ public class Maincouse {
         scrollPane.getViewport().setBackground(new Color(255, 255, 204)); // ✅ ให้ viewport เป็นสีเดียวกัน
         scrollPane.setBorder(null); // ถ้าไม่อยากให้มีขอบ
 
-        //1.ไข่เจียว
+        // 1.ไข่เจียว
         JButton omrBTN = new JButton();
         omrBTN.setBounds(20, 100, 150, 100);
         ImageIcon omricon = new ImageIcon(
@@ -79,8 +94,32 @@ public class Maincouse {
         omrBTN.setFocusPainted(false);
         contentPanel.add(omrLB);
         contentPanel.add(omrBTN);
+        omrBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("09");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //2.ข้าวผัดทะเล
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Omelette");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 2.ข้าวผัดทะเล
         JButton sfrBTN = new JButton();
         sfrBTN.setBounds(205, 100, 150, 100);
         ImageIcon sfricon = new ImageIcon(
@@ -97,8 +136,32 @@ public class Maincouse {
         sfrBTN.setFocusPainted(false);
         contentPanel.add(sfrLB);
         contentPanel.add(sfrBTN);
+        sfrBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("10");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //3.แกงเขียวหวาน
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Seafood Fried Rice");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 3.แกงเขียวหวาน
         JButton gcrBTN = new JButton();
         gcrBTN.setBounds(20, 260, 150, 100);
         ImageIcon gcricon = new ImageIcon(
@@ -115,8 +178,32 @@ public class Maincouse {
         gcrBTN.setFocusPainted(false);
         contentPanel.add(gcrLB);
         contentPanel.add(gcrBTN);
+        gcrBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("11");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //4.ต้มยำกุ้ง
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Green Curry");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 4.ต้มยำกุ้ง
         JButton tygBTN = new JButton();
         tygBTN.setBounds(205, 260, 150, 100);
         ImageIcon tygicon = new ImageIcon(
@@ -133,8 +220,32 @@ public class Maincouse {
         tygBTN.setFocusPainted(false);
         contentPanel.add(tygLB);
         contentPanel.add(tygBTN);
+        tygBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("12");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //5.ผัดกะเพราหมูสับ
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Tom Yum Goong");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 5.ผัดกะเพราหมูสับ
         JButton pwsBTN = new JButton();
         pwsBTN.setBounds(20, 420, 150, 100);
         ImageIcon porkwbasilicon = new ImageIcon(
@@ -151,8 +262,32 @@ public class Maincouse {
         pwsBTN.setFocusPainted(false);
         contentPanel.add(pwsLB);
         contentPanel.add(pwsBTN);
+        pwsBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("13");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //6.ผัดกะเพราไก่
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Stir-Fried Minced Pork with Basil");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 6.ผัดกะเพราไก่
         JButton cwsBTN = new JButton();
         cwsBTN.setBounds(205, 420, 150, 100);
         ImageIcon cwsicon = new ImageIcon(
@@ -169,8 +304,32 @@ public class Maincouse {
         cwsBTN.setFocusPainted(false);
         contentPanel.add(cwsLB);
         contentPanel.add(cwsBTN);
+        cwsBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("14");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //7.ผัดกะเพราหมูกรอบ
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Stir-Fried Chicken with Basil");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 7.ผัดกะเพราหมูกรอบ
         JButton crippyBTN = new JButton();
         crippyBTN.setBounds(20, 590, 150, 100);
         ImageIcon crippyicon = new ImageIcon(
@@ -187,8 +346,32 @@ public class Maincouse {
         crippyBTN.setFocusPainted(false);
         contentPanel.add(crippyLB);
         contentPanel.add(crippyBTN);
+        crippyBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("15");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //8.ปูผัดผงกะหรี่
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Stir-Fried Crispy Pork with Basil");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 8.ปูผัดผงกะหรี่
         JButton tccBTN = new JButton();
         tccBTN.setBounds(205, 590, 150, 100);
         ImageIcon tccicon = new ImageIcon(
@@ -205,12 +388,36 @@ public class Maincouse {
         tccBTN.setFocusPainted(false);
         contentPanel.add(tccLB);
         contentPanel.add(tccBTN);
+        tccBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("16");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //9.ผัดหอยลาย
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Thai Crab Curry");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 9.ผัดหอยลาย
         JButton stirclamsBTN = new JButton();
         stirclamsBTN.setBounds(20, 770, 150, 100);
         ImageIcon stirclamsicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Maincouse\\ผัดหอยลาย.png");
+                ".\\Frontend\\Photo\\Maincouse\\ผัดหอยลาย.png");
         Image getSTIRCLAMS = stirclamsicon.getImage();
         Image setSTIRCLAMS = getSTIRCLAMS.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         stirclamsBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -223,12 +430,36 @@ public class Maincouse {
         stirclamsBTN.setFocusPainted(false);
         contentPanel.add(stirclamsLB);
         contentPanel.add(stirclamsBTN);
+        stirclamsBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("17");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //10.ผัดผักบุ้ง
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Stir-Fried Clams with Chilli Paste");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 10.ผัดผักบุ้ง
         JButton smgBTN = new JButton();
         smgBTN.setBounds(205, 770, 150, 100);
         ImageIcon smgicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Maincouse\\ผัดผักบุ้ง.png");
+                ".\\Frontend\\Photo\\Maincouse\\ผัดผักบุ้ง.png");
         Image getSMG = smgicon.getImage();
         Image setSMG = getSMG.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         smgBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -241,12 +472,36 @@ public class Maincouse {
         smgBTN.setFocusPainted(false);
         contentPanel.add(smgLB);
         contentPanel.add(smgBTN);
+        smgBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("18");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //11.แกงมัสมั่นไก่
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Stir-Fried Chinese Morning Glory");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 11.แกงมัสมั่นไก่
         JButton cmmBTN = new JButton();
         cmmBTN.setBounds(20, 940, 150, 100);
         ImageIcon cmmicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Maincouse\\แกงมัสมั่นไก่.png");
+                ".\\Frontend\\Photo\\Maincouse\\แกงมัสมั่นไก่.png");
         Image getCMM = cmmicon.getImage();
         Image setCMM = getCMM.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         cmmBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -259,12 +514,36 @@ public class Maincouse {
         cmmBTN.setFocusPainted(false);
         contentPanel.add(cmmLB);
         contentPanel.add(cmmBTN);
+        cmmBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("19");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
 
-        //12.ผัดไท
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Chicken Massaman");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 12.ผัดไท
         JButton ptBTN = new JButton();
         ptBTN.setBounds(205, 940, 150, 100);
         ImageIcon pticon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Maincouse\\ผัดไท.png");
+                ".\\Frontend\\Photo\\Maincouse\\ผัดไท.png");
         Image getPT = pticon.getImage();
         Image setPT = getPT.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         ptBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -277,13 +556,37 @@ public class Maincouse {
         ptBTN.setFocusPainted(false);
         contentPanel.add(ptLB);
         contentPanel.add(ptBTN);
+        ptBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("20");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Pad Thai");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         // ปุ่มตะกร้าสินค้า
         JButton cartBTN = new JButton();
         cartBTN.setBounds(310, 20, 40, 40);
         cartBTN.setBackground(Color.WHITE); // ✅ ให้ปุ่มเข้ากับพื้นหลัง
         ImageIcon carticon = new ImageIcon(
-                        "./Frontend/Photo/other/ตะกร้าสินค้า.png");
+                "./Frontend/Photo/other/ตะกร้าสินค้า.png");
         Image getCART = carticon.getImage();
         Image setCART = getCART.getScaledInstance(cartBTN.getWidth(), cartBTN.getHeight(), Image.SCALE_SMOOTH);
         cartBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -297,13 +600,13 @@ public class Maincouse {
 
         // กดแล้วไปหน้า CartUI
         cartBTN.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        // เปิดหน้า CartUI
-                        new CartUI();
-                        Maincouse.dispose();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // เปิดหน้า CartUI
+                new CartUI(cart,username);
+                Maincouse.dispose();
 
-                }
+            }
         });
 
         Maincouse.setVisible(true);

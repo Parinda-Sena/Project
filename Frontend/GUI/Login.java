@@ -1,20 +1,19 @@
 package GUI;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class Login 
-{
-	public Login()
-	{
+public class Login {
+	public Login() {
 		JFrame Login = new JFrame("Meow Ordering");
-		//Login.setLocationRelativeTo(null);
+		// Login.setLocationRelativeTo(null);
 		Login.setLayout(null);
 		Login.setSize(400, 700);
 		Login.setIconImage(new ImageIcon(".\\Frontend\\Photo\\Logo\\LogoJFrame.png").getImage());
-		Login.getContentPane().setBackground(new Color(255,255,204));
+		Login.getContentPane().setBackground(new Color(255, 255, 204));
 		Login.setResizable(false);
 		Login.setLocationRelativeTo(null);
 
@@ -69,13 +68,21 @@ public class Login
 							}
 						}
 					}
-
-					if (found) {
+					if (inputName.equals("admin") && inputPassword.equals("123")) {
 						JOptionPane.showMessageDialog(Login, "Login successful!", "Success",
 								JOptionPane.INFORMATION_MESSAGE);
-						new MainMenu();
+						new AdminUI();
 						Login.dispose();
-					} else {
+					}
+					else if (found) {
+						JOptionPane.showMessageDialog(Login, "Login successful!", "Success",
+								JOptionPane.INFORMATION_MESSAGE);
+						String username = inputName;
+						new MainMenu(username);
+						Login.dispose();
+					}
+
+					else {
 						JOptionPane.showMessageDialog(Login, "Invalid name or password.", "Login Failed",
 								JOptionPane.ERROR_MESSAGE);
 					}

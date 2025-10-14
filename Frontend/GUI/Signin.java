@@ -107,7 +107,7 @@ public class Signin {
                     JOptionPane.showMessageDialog(Signin, "Success", "Success",
                             JOptionPane.INFORMATION_MESSAGE);
                     Signin.dispose();
-                    new MainMenu();
+                    new Login();
 
                     // เคลียร์ช่อง
                     name.setText("");

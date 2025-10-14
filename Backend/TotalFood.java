@@ -2,12 +2,12 @@ package Backend;
 
 // อาหาร 1 อย่างสั่งกี่จานพร้อมคำนวณราคารวมของอาหาร
 public class TotalFood {
-    private Food food;
-    private int quantity;
+    private Food food; // อาหาร 1 อย่าง
+    private int quantity; // จำนวนอาหารที่สั่ง
 
     public TotalFood(Food food, int quantity) {
-        this.food = food;
-        this.quantity = quantity;
+        this.food = food; // แทนอาหารนั้น
+        this.quantity = quantity;// จำนวน
     }
 
     /**
@@ -35,19 +35,7 @@ public class TotalFood {
         }
         this.quantity += amount;
     }
-
-    /**
-     * ลดจำนวนที่สั่ง
-     * 
-     * @param amount จำนวนที่ต้องการลด
-     */
-    public void reduceQuantity(int amount) {
-        if (amount <= 0 || amount > this.quantity) {
-            throw new IllegalArgumentException("Amount to reduce must be greater than zero and less than or equal to current quantity.");
-        }
-        this.quantity -= amount;
-    }
-
+    
     /**
      * @return ราคาทั้งหมดของอาหารนี้ (ราคาอาหาร * จำนวน)
      */

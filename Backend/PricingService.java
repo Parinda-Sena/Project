@@ -1,63 +1,45 @@
 package Backend;
-import java.util.ArrayList;
-import Backend.Discount.*;
 
-// คำนวณราคาทั้งหมดพร้อมส่วนลด
+import Backend.Discount.*;
 public class PricingService {
 
-    //เก็บส่วนลดที่มี
-    private record CalculateDiscount(DiscountStrategy strategy) {}
+    // เก็บส่วนลดที่เลือกใช้แค่ตัวเดียว
+    private DiscountStrategy discountStrategy = null;
 
-    //เก็บแก๊งส่วนลดทั้งหลายๆแบบ
-    private final ArrayList<CalculateDiscount> discountStrategies = new ArrayList<>();
-    
-    //ไม่มีส่วนลด
+    // ไม่มีส่วนลด
     private final DiscountStrategy defaultStrategy = new DefaultPrice();
 
-    //เพิ่มส่วนลดใหม่มาคำนวณด้วย
-    public void addDiscountStrategy(DiscountStrategy strategy) {
-        discountStrategies.add(new CalculateDiscount(strategy));
+    // ตั้งส่วนลดใหม่ (หรือเคลียร์ถ้า null)
+    public void setDiscountStrategy(DiscountStrategy strategy) {
+        this.discountStrategy = strategy;
     }
 
-    //คำนวณราคาทั้งหมดก่อนใช้ส่วนลด
+    // คำนวณราคาก่อนส่วนลด (ราคาเต็ม)
     public double calculateOriginalPrice(FoodCart cart) {
         double total = 0.0;
-        for (TotalFood food : cart.foods) { //cart.foods คือรายการอาหารในตะกร้า
+        for (TotalFood food : cart.getFoods()) {// วนลูปทุกเมนูในตะกร้า
             total += defaultStrategy.calculatePrice(food);
         }
         return total;
     }
 
-    //คำนวณราคาทั้งหมดหลังใช้ส่วนลด
+    // คำนวณราคาหลังใช้ส่วนลด (ถ้ามี)
     public double calculateFinalPrice(FoodCart cart) {
-        double total = 0.0;
-
-        if (!discountStrategies.isEmpty()) {
-            // ถ้ามีส่วนลด ให้ใช้ตัวแรกที่รองรับการคำนวณ (รองรับแบบซื้อ 1 แถม 1)
-            for (CalculateDiscount cd : discountStrategies) {
-                DiscountStrategy strategy = cd.strategy();
-
-                try {
-                    // ลองใช้ method calculatePrice(FoodCart) ถ้าทำได้
-                    total = strategy.calculatePrice(cart);
-                    break; // ใช้แค่ตัวแรกที่ใช้ได้
-                } catch (UnsupportedOperationException e) {
-                    total = calculateOriginalPrice(cart);
-                    total = strategy.applyDiscount(total);
-                }
-            }
-        } else {
-            // ไม่มีส่วนลด → ราคาเต็ม
-            total = calculateOriginalPrice(cart);
+        if (discountStrategy == null) {
+            return calculateOriginalPrice(cart); // ถ้าไม่มีส่วนลดในคืนค่าราคาปกติ
         }
-
-        return total;
+        try {
+            // ลองคำนวณราคาจาก strategy ถ้ารองรับ
+            return discountStrategy.calculatePrice(cart);
+        } catch (UnsupportedOperationException e) {
+            // ถ้าไม่รองรับ calculatePrice(FoodCart) ให้ใช้ applyDiscount กับราคาปกติแทน
+            double originalPrice = calculateOriginalPrice(cart);
+            return discountStrategy.applyDiscount(originalPrice);
+        }
     }
-    
-    // ใช้คำนวณราคาของอาหารเดี่ยว (ให้ FoodCart เรียกใช้ได้)
+
+    // คำนวณราคาของอาหารเดี่ยว (ใช้ defaultStrategy)
     public double calculatePrice(Food food, int quantity) {
         return defaultStrategy.calculatePrice(new TotalFood(food, quantity));
     }
-        
-    
 }

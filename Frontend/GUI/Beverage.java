@@ -1,21 +1,32 @@
 package GUI;
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.*;
+import javax.swing.*;
+
+import Backend.FoodCart;
+import Backend.Discount.InvalidOperationException;
+import Backend.Discount.ProductNotFoundException;
+import Backend.AllFood;
+import Backend.CartStore;
+import Backend.Food;
 
 public class Beverage {
-    public Beverage() {
-        JFrame Beverage = new JFrame("Meow Ordering");
-        Beverage.setSize(400, 700);
-        Beverage.setIconImage(
-                new ImageIcon(".\\Frontend\\Photo\\Logo\\LogoJFrame.png").getImage());
+    private final FoodCart cart = CartStore.getCart(); // ใช้ cart เดียวกับ ทั้งหมด
+    private AllFood allFood; // ใช้ cart เดียวกับ MainMenu
+
+    public Beverage(String username) {
+        // ✅ โหลดข้อมูลอาหารจากคลาส AllFood (ซึ่งอ่าน CSV มาแล้ว)
+        allFood = new AllFood();
+
+        JFrame frame = new JFrame("Meow Ordering");
+        frame.setSize(400, 700);
+        frame.setIconImage(new ImageIcon(".\\Frontend\\Photo\\Logo\\LogoJFrame.png").getImage());
 
         // ตั้งสีพื้นหลังของ JFrame
-        Beverage.getContentPane().setBackground(new Color(255, 255, 204));
-        Beverage.setLayout(null);
-        Beverage.setResizable(false);
-        Beverage.setLocationRelativeTo(null);
-        
+        frame.getContentPane().setBackground(new Color(255, 255, 204));
+        frame.setLayout(null);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
 
         // Panel สำหรับใส่ component ทั้งหมด
         JPanel contentPanel = new JPanel(null);
@@ -29,7 +40,7 @@ public class Beverage {
         mainLabel.setOpaque(true);
         mainLabel.setBackground(new Color(150, 50, 40));
         mainLabel.setSize(150, 40);
-        int x = (Beverage.getWidth() - mainLabel.getWidth()) / 2;
+        int x = (frame.getWidth() - mainLabel.getWidth()) / 2;
         int y = 20;
         mainLabel.setLocation(x, y);
         contentPanel.add(mainLabel);
@@ -45,29 +56,26 @@ public class Beverage {
         backBTN.setHorizontalAlignment(SwingConstants.CENTER);
         contentPanel.add(backBTN);
         // กดแล้วไปหน้า MainMenu
-        // กดแล้วไปหน้า Mainmenu
         backBTN.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        // เปิดหน้า CartUI
-                        new MainMenu();
-                        Beverage.dispose();
-
-                }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MainMenu(username);
+                frame.dispose();
+            }
         });
 
         // JScrollPane เฉพาะแนวตั้ง
         JScrollPane scrollPane = new JScrollPane(contentPanel,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getViewport().setBackground(new Color(255, 255, 204)); // ✅ ให้ viewport เป็นสีเดียวกัน
+        scrollPane.getViewport().setBackground(new Color(255, 255, 204)); // ให้ viewport เป็นสีเดียวกัน
         scrollPane.setBorder(null); // ถ้าไม่อยากให้มีขอบ
 
+        // --- สร้างปุ่มอาหาร (โค้ดเดิมของคุณ) ---
         //1.น้ำเปล่า
         JButton waterBTN = new JButton();
         waterBTN.setBounds(20, 100, 150, 100);
-        ImageIcon watericon = new ImageIcon(
-                ".\\Frontend\\Photo\\Beverage\\น้ำเปล่า.png");
+        ImageIcon watericon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\น้ำเปล่า.png");
         Image getWATER = watericon.getImage();
         Image setWATER = getWATER.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         waterBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -81,11 +89,35 @@ public class Beverage {
         contentPanel.add(waterLB);
         contentPanel.add(waterBTN);
 
+        waterBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("33");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Water");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         //2.กาแฟ
         JButton coffeeBTN = new JButton();
         coffeeBTN.setBounds(205, 100, 150, 100);
-        ImageIcon coffeeicon = new ImageIcon(
-                ".\\Frontend\\Photo\\Beverage\\กาแฟเย็น.png");
+        ImageIcon coffeeicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\กาแฟเย็น.png");
         Image getCOFFEE = coffeeicon.getImage();
         Image setCOFFEE = getCOFFEE.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         coffeeBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -99,11 +131,35 @@ public class Beverage {
         contentPanel.add(coffeeLB);
         contentPanel.add(coffeeBTN);
 
+        coffeeBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("34");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Iced Coffee");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         //3.สตรอว์เบอร์รี่โซดา
         JButton strawsodaBTN = new JButton();
         strawsodaBTN.setBounds(20, 260, 150, 100);
-        ImageIcon strawsodaicon = new ImageIcon(
-                ".\\Frontend\\Photo\\Beverage\\สตรอว์เบอรี่โซดา.png");
+        ImageIcon strawsodaicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\สตรอว์เบอรี่โซดา.png");
         Image getSTRAWSODA = strawsodaicon.getImage();
         Image setSTRAWSODA = getSTRAWSODA.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         strawsodaBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -117,11 +173,35 @@ public class Beverage {
         contentPanel.add(strawsodaLB);
         contentPanel.add(strawsodaBTN);
 
+        strawsodaBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("35");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Strawberry Soda");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         //4.ช็อกโกแลตเย็น
         JButton icechocBTN = new JButton();
         icechocBTN.setBounds(205, 260, 150, 100);
-        ImageIcon icechocicon = new ImageIcon(
-                ".\\Frontend\\Photo\\Beverage\\ช็อกโกแลตเย็น.png");
+        ImageIcon icechocicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\ช็อกโกแลตเย็น.png");
         Image getICECHOC = icechocicon.getImage();
         Image setICECHOC = getICECHOC.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         icechocBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -135,11 +215,35 @@ public class Beverage {
         contentPanel.add(icechocLB);
         contentPanel.add(icechocBTN);
 
+        icechocBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("36");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Iced Cocoa");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         //5.เลมอนโซดา
         JButton limesodaBTN = new JButton();
         limesodaBTN.setBounds(20, 420, 150, 100);
-        ImageIcon limesodaicon = new ImageIcon(
-                ".\\Frontend\\Photo\\Beverage\\เลมอนนโซดา.png");
+        ImageIcon limesodaicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\เลมอนนโซดา.png");
         Image getLIMESODA = limesodaicon.getImage();
         Image setLIMESODA = getLIMESODA.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         limesodaBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -153,11 +257,35 @@ public class Beverage {
         contentPanel.add(limesodaLB);
         contentPanel.add(limesodaBTN);
 
+        limesodaBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("37");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Lemon Soda");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         //6.ชาไทย
         JButton thaiteaBTN = new JButton();
         thaiteaBTN.setBounds(205, 420, 150, 100);
-        ImageIcon thaiteaicon = new ImageIcon(
-                ".\\Frontend\\Photo\\Beverage\\ชาไทย.png");
+        ImageIcon thaiteaicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\ชาไทย.png");
         Image getTHAITEA = thaiteaicon.getImage();
         Image setTHAITEA = getTHAITEA.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         thaiteaBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -171,11 +299,35 @@ public class Beverage {
         contentPanel.add(thaiteaLB);
         contentPanel.add(thaiteaBTN);
 
+        thaiteaBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("38");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Iced Thai Tea");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         //7.ชาเขียวเย็น
         JButton greenteaBTN = new JButton();
         greenteaBTN.setBounds(20, 590, 150, 100);
-        ImageIcon greenteaicon = new ImageIcon(
-                ".\\Frontend\\Photo\\Beverage\\ชาเขียวเย็น.png");
+        ImageIcon greenteaicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\ชาเขียวเย็น.png");
         Image getGREENTEA = greenteaicon.getImage();
         Image setGREENTEA = getGREENTEA.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         greenteaBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -189,11 +341,35 @@ public class Beverage {
         contentPanel.add(greenteaLB);
         contentPanel.add(greenteaBTN);
 
+        greenteaBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("39");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Iced Green Tea");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         // 8.ไมโลปั่น
         JButton miloBTN = new JButton();
         miloBTN.setBounds(205, 590, 150, 100);
-        ImageIcon miloicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Beverage\\ไมโลปั่น.png");
+        ImageIcon miloicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\ไมโลปั่น.png");
         Image getMILO = miloicon.getImage();
         Image setMILO = getMILO.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         miloBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -207,11 +383,35 @@ public class Beverage {
         contentPanel.add(miloLB);
         contentPanel.add(miloBTN);
 
+        miloBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("40");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Milo Frappe");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         // 9.ลิ้นจี่โซดา
         JButton lyncheeBTN = new JButton();
         lyncheeBTN.setBounds(20, 770, 150, 100);
-        ImageIcon lyncheeicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Beverage\\ลิ้นจี่โซดา.png");
+        ImageIcon lyncheeicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\ลิ้นจี่โซดา.png");
         Image getLYNCHEE = lyncheeicon.getImage();
         Image setLYNCHEE = getLYNCHEE.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         lyncheeBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -225,11 +425,35 @@ public class Beverage {
         contentPanel.add(lyncheeLB);
         contentPanel.add(lyncheeBTN);
 
+        lyncheeBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("41");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Lynchee Soda");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         // 10.น้ำมะพร้าวปั่น
         JButton coconutBTN = new JButton();
         coconutBTN.setBounds(205, 770, 150, 100);
-        ImageIcon coconuticon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Beverage\\น้ำมะพร้วปั่น.png");
+        ImageIcon coconuticon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\น้ำมะพร้วปั่น.png");
         Image getCOCONUT = coconuticon.getImage();
         Image setCOCONUT = getCOCONUT.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         coconutBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -243,11 +467,35 @@ public class Beverage {
         contentPanel.add(coconutLB);
         contentPanel.add(coconutBTN);
 
+        coconutBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("42");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Coconut Smoothie");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         // 11.สตรอว์เบอร์รี่โยเกิร์ตปั่น
         JButton strawyoBTN = new JButton();
         strawyoBTN.setBounds(20, 940, 150, 100);
-        ImageIcon strawyoicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Beverage\\สตรอว์เบอร์รี่โยเกิร์ต.png");
+        ImageIcon strawyoicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\สตรอว์เบอร์รี่โยเกิร์ต.png");
         Image getSTRAWYO = strawyoicon.getImage();
         Image setSTRAWYO = getSTRAWYO.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         strawyoBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -261,11 +509,35 @@ public class Beverage {
         contentPanel.add(strawyoLB);
         contentPanel.add(strawyoBTN);
 
+        strawyoBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("43");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Strawberry Yogurt");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         // 12.น้ำแตงโมปั่น
         JButton watermelonBTN = new JButton();
         watermelonBTN.setBounds(205, 940, 150, 100);
-        ImageIcon watermelonicon = new ImageIcon(
-                        ".\\Frontend\\Photo\\Beverage\\น้ำแตงโมปั่น.png");
+        ImageIcon watermelonicon = new ImageIcon(".\\Frontend\\Photo\\Beverage\\น้ำแตงโมปั่น.png");
         Image getWATERMELON = watermelonicon.getImage();
         Image setWATERMELON = getWATERMELON.getScaledInstance(170, 180, Image.SCALE_SMOOTH);
         watermelonBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -279,12 +551,36 @@ public class Beverage {
         contentPanel.add(watermelonLB);
         contentPanel.add(watermelonBTN);
 
+        watermelonBTN.addActionListener(e -> {
+            try {
+                // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
+                Food food = allFood.getFoodByID("44");
+                if (food != null && !food.isAvailable()) {
+                    JOptionPane.showMessageDialog(null,
+                            food.getfoodName() + " is currently disabled by admin!",
+                            "Unavailable",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
+                }
+
+                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                String foodId = allFood.getFoodIDByName("Watermelon Smoothie");
+                cart.addFood(foodId, 1);
+                JOptionPane.showMessageDialog(null, "Added to cart.");
+
+            } catch (ProductNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Product not found", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidOperationException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot add product: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         //ปุ่มตะกร้าสินค้า
         JButton cartBTN = new JButton();
         cartBTN.setBounds(310, 20, 40, 40);
-        cartBTN.setBackground(Color.WHITE); // ✅ ให้ปุ่มเข้ากับพื้นหลัง
-        ImageIcon carticon = new ImageIcon(
-                        ".\\Frontend\\Photo\\other\\ตะกร้าสินค้า.png");
+        cartBTN.setBackground(Color.WHITE); // ให้ปุ่มเข้ากับพื้นหลัง
+        ImageIcon carticon = new ImageIcon(".\\Frontend\\Photo\\other\\ตะกร้าสินค้า.png");
         Image getCART = carticon.getImage();
         Image setCART = getCART.getScaledInstance(cartBTN.getWidth(), cartBTN.getHeight(), Image.SCALE_SMOOTH);
         cartBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -292,22 +588,21 @@ public class Beverage {
         cartBTN.setIcon(new ImageIcon(setCART));
         cartBTN.setBorderPainted(false);
         cartBTN.setFocusPainted(false);
-
         contentPanel.add(cartBTN);
-        Beverage.setContentPane(scrollPane);
 
-        // กดแล้วไปหน้า CartUI
+        frame.setContentPane(scrollPane);
+
+        // กดแล้วไปหน้า CartUI (ส่ง cart เดียวกันไป)
         cartBTN.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        // เปิดหน้า CartUI
-                        new CartUI();
-                        Beverage.dispose();
-
-                }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new CartUI(cart, username);
+                frame.dispose();
+            }
         });
 
-        Beverage.setVisible(true);
-        Beverage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
+
