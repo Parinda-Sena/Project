@@ -120,7 +120,8 @@ public class CartUI {
         promoEnter.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (promoEnter.getText().equals("Enter Promotion Code")) { // ถ้าคำบนกล่องกรอกโปรโมชันตรงกับ Enter Promotion Code กดตรงกล่องแล้วจะหายไป
+                if (promoEnter.getText().equals("Enter Promotion Code")) { // ถ้าคำบนกล่องกรอกโปรโมชันตรงกับ Enter
+                                                                           // Promotion Code กดตรงกล่องแล้วจะหายไป
                     promoEnter.setText("");
                     promoEnter.setForeground(Color.BLACK);
                 }
@@ -265,7 +266,8 @@ public class CartUI {
         deleteBTN.setForeground(Color.WHITE);
         deleteBTN.setFont(new Font("SansSerif", Font.BOLD, 16));
         frame.add(deleteBTN);
-        deleteBTN.addActionListener(e -> new DeleteJFrame(this)); // รับการทำงานจาก DeleteJFrame ในการลบรายการอาหารทั้งหมดที่เลือกโดยใส่ชื่อ
+        deleteBTN.addActionListener(e -> new DeleteJFrame(this)); // รับการทำงานจาก DeleteJFrame
+                                                                  // ในการลบรายการอาหารทั้งหมดที่เลือกโดยใส่ชื่อ
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -274,8 +276,6 @@ public class CartUI {
     public CartUI(String username) {
         this(Backend.CartStore.getCart(), username);
     }
-
-
 
     // public เพื่อให้ MainMenu เรียกเมื่อมีการเพิ่มสินค้า
     public void refreshTable() { // วาดรายการอาหารใหม่จาก cart
@@ -318,5 +318,4 @@ public class CartUI {
         finalLabelValue.setText(String.format("%.2f", total));
     }
 
-    
 }

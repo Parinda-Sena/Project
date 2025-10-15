@@ -39,23 +39,6 @@ public class FoodCart {
         foods.add(new TotalFood(foodToAdd, quantity));// ไม่มีอาหาร ให้บวกเพิ่มรายการใหม่
     }
 
-    public void removeFood(String foodID) throws ProductNotFoundException {// หาอาหารด้วย FoodID
-        if (foodID == null) { return;}
-
-        TotalFood foodToRemove = null;
-        for (TotalFood tf : foods) {
-            if (tf.getFood().getfoodID().equals(foodID)) {
-                foodToRemove = tf;
-                break;
-            }
-        }
-        if (foodToRemove != null) {
-            foods.remove(foodToRemove);
-        } else {
-            throw new ProductNotFoundException("not found in cart");
-        }
-    }
-
     public double getOriginalPrice() { // เรียก pricingservice มาช่วยคำนวณราคา
         return pricingService.calculateOriginalPrice(this);
     }

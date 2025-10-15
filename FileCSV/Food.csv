@@ -1,5 +1,5 @@
 ID,Name,Price,Available
-01,French Fries,39.00,false
+01,French Fries,39.00,true
 02,Chicken Pop,39.00,false
 03,Chicken Nuggets,39.00,false
 04,Boneless Chicken,39.00,false

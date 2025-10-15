@@ -53,7 +53,7 @@ public class AllFood {
                     }
                 }
             }
-            System.out.println("Loaded " + foods.size() + " products from " + CSV_FILE);
+            
 
         } catch (IOException e) {
             System.err.println("Could not read file " + CSV_FILE + ". Starting with empty inventory.");

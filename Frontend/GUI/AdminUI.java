@@ -39,7 +39,7 @@ public class AdminUI {
         scrollPane.setBounds(50, 70, 400, 200);
         frame.add(scrollPane);
 
-        // ✅ โหลดข้อมูลจาก AllFood
+        // โหลดข้อมูลจาก AllFood
         AllFood allFood = new AllFood();
         foods = allFood.getAllFoods(); // allFood ดึงรายการอาหารจาก AllFood ใน csv มาเก็บใน foods 
         updateTable(); // เติมข้อมูลลงตาราง
@@ -76,7 +76,7 @@ public class AdminUI {
             model.addRow(new Object[] {
                     f.getfoodName(),
                     f.getPrice(),
-                    f.isAvailable() ? "✅ Available" : "❌ Disabled"
+                    f.isAvailable() ? "✅ Availabled" : "❌ Disabled"
             });
         }
     }

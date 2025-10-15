@@ -28,7 +28,7 @@ public class MainMenu {
         FoodCart cart = CartStore.getCart();
 
         JFrame mainmenu = new JFrame("Meow Ordering");
-        //mainmenu.setLocationRelativeTo(null);
+        // mainmenu.setLocationRelativeTo(null);
         mainmenu.setLayout(null);
         mainmenu.setSize(400, 700);
         mainmenu.setIconImage(new ImageIcon(".\\Frontend\\Photo\\Logo\\LogoJFrame.png").getImage());
@@ -226,7 +226,6 @@ public class MainMenu {
         mainmenu.add(sfrLB);
         mainmenu.add(sfrBTN);
 
-        
         sfrBTN.addActionListener(e -> {
             try {
                 // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
@@ -341,7 +340,7 @@ public class MainMenu {
         cartBTN.setBounds(310, 30, 40, 40);
         cartBTN.setBackground(Color.WHITE);
         ImageIcon carticon = new ImageIcon(
-                        "./Frontend/Photo/other/ตะกร้าสินค้า.png");
+                "./Frontend/Photo/other/ตะกร้าสินค้า.png");
         Image getCART = carticon.getImage();
         Image setCART = getCART.getScaledInstance(cartBTN.getWidth(), cartBTN.getHeight(), Image.SCALE_SMOOTH);
         cartBTN.setHorizontalAlignment(SwingConstants.CENTER);
@@ -351,18 +350,17 @@ public class MainMenu {
         cartBTN.setFocusPainted(false);
         mainmenu.add(cartBTN);
 
-        //กดแล้วไปหน้า CartUI 
-cartBTN.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // ส่ง cart ที่อยู่ใน MainMenu เข้าไปให้ CartUI แสดง
-        new CartUI(cart,username);
-         mainmenu.dispose();
-    }
-});
+        // กดแล้วไปหน้า CartUI
+        cartBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // ส่ง cart ที่อยู่ใน MainMenu เข้าไปให้ CartUI แสดง
+                new CartUI(cart, username);
+                mainmenu.dispose();
+            }
+        });
 
         mainmenu.setVisible(true);
         mainmenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
-
