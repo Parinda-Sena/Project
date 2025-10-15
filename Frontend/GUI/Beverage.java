@@ -12,7 +12,7 @@ import Backend.Food;
 
 public class Beverage {
     private final FoodCart cart = CartStore.getCart(); // ใช้ cart เดียวกับ ทั้งหมด
-    private AllFood allFood; // ใช้ cart เดียวกับ MainMenu
+    private AllFood allFood; 
 
     public Beverage(String username) {
         // ✅ โหลดข้อมูลอาหารจากคลาส AllFood (ซึ่งอ่าน CSV มาแล้ว)
@@ -30,8 +30,8 @@ public class Beverage {
 
         // Panel สำหรับใส่ component ทั้งหมด
         JPanel contentPanel = new JPanel(null);
-        contentPanel.setBackground(new Color(255, 255, 204)); // ✅ ตั้งสีพื้นหลัง
-        contentPanel.setPreferredSize(new Dimension(380, 1200)); // ✅ กำหนดขนาดที่ต้องการให้ใหญ่กว่า JFrame
+        contentPanel.setBackground(new Color(255, 255, 204)); // ตั้งสีพื้นหลัง
+        contentPanel.setPreferredSize(new Dimension(380, 1200)); // กำหนดขนาดที่ต้องการให้ใหญ่กว่า JFrame
 
         // Label "Beverage"
         JLabel mainLabel = new JLabel("Beverage", SwingConstants.CENTER);
