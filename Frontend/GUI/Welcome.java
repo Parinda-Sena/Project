@@ -39,7 +39,6 @@ public class Welcome {
         Login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // เปิดหน้า CartUI
                 new Login();
                 Welcome.dispose();
             }

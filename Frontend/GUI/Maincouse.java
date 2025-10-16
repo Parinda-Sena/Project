@@ -90,8 +90,6 @@ public class Maincouse {
         JLabel omrLB = new JLabel("<html>Omelette<br>30 Baht</html>");
         omrLB.setBounds(20, 70, 300, 300);
         omrLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        omrBTN.setBorderPainted(false);
-        omrBTN.setFocusPainted(false);
         contentPanel.add(omrLB);
         contentPanel.add(omrBTN);
         omrBTN.addActionListener(e -> {
@@ -132,8 +130,6 @@ public class Maincouse {
         JLabel sfrLB = new JLabel("<html>Seafood Fried Rice<br>70 Baht</html>");
         sfrLB.setBounds(205, 70, 300, 300);
         sfrLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        sfrBTN.setBorderPainted(false);
-        sfrBTN.setFocusPainted(false);
         contentPanel.add(sfrLB);
         contentPanel.add(sfrBTN);
         sfrBTN.addActionListener(e -> {
@@ -174,8 +170,6 @@ public class Maincouse {
         JLabel gcrLB = new JLabel("<html>Green Curry<br>60 Baht</html>");
         gcrLB.setBounds(20, 230, 300, 300);
         gcrLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        gcrBTN.setBorderPainted(false);
-        gcrBTN.setFocusPainted(false);
         contentPanel.add(gcrLB);
         contentPanel.add(gcrBTN);
         gcrBTN.addActionListener(e -> {
@@ -216,8 +210,6 @@ public class Maincouse {
         JLabel tygLB = new JLabel("<html>Tom Yum Goong<br>60 Baht</html>");
         tygLB.setBounds(205, 230, 300, 300);
         tygLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        tygBTN.setBorderPainted(false);
-        tygBTN.setFocusPainted(false);
         contentPanel.add(tygLB);
         contentPanel.add(tygBTN);
         tygBTN.addActionListener(e -> {
@@ -258,8 +250,6 @@ public class Maincouse {
         JLabel pwsLB = new JLabel("<html>Stir-Fried Minced Pork<br>with Basil<br>60 Baht</html>");
         pwsLB.setBounds(20, 400, 300, 300);
         pwsLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        pwsBTN.setBorderPainted(false);
-        pwsBTN.setFocusPainted(false);
         contentPanel.add(pwsLB);
         contentPanel.add(pwsBTN);
         pwsBTN.addActionListener(e -> {
@@ -300,8 +290,6 @@ public class Maincouse {
         JLabel cwsLB = new JLabel("<html>Stir-Fried Chicken<br>with Basil<br>55 Baht</html>");
         cwsLB.setBounds(205, 400, 300, 300);
         cwsLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        cwsBTN.setBorderPainted(false);
-        cwsBTN.setFocusPainted(false);
         contentPanel.add(cwsLB);
         contentPanel.add(cwsBTN);
         cwsBTN.addActionListener(e -> {
@@ -342,8 +330,6 @@ public class Maincouse {
         JLabel crippyLB = new JLabel("<html>Stir-Fried Crispy Pork<br>with Basil<br>65 Baht</html>");
         crippyLB.setBounds(20, 570, 300, 300);
         crippyLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        crippyBTN.setBorderPainted(false);
-        crippyBTN.setFocusPainted(false);
         contentPanel.add(crippyLB);
         contentPanel.add(crippyBTN);
         crippyBTN.addActionListener(e -> {
@@ -384,8 +370,6 @@ public class Maincouse {
         JLabel tccLB = new JLabel("<html>Thai Crab Curry<br>450 Baht</html>");
         tccLB.setBounds(205, 560, 300, 300);
         tccLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        tccBTN.setBorderPainted(false);
-        tccBTN.setFocusPainted(false);
         contentPanel.add(tccLB);
         contentPanel.add(tccBTN);
         tccBTN.addActionListener(e -> {
@@ -426,8 +410,6 @@ public class Maincouse {
         JLabel stirclamsLB = new JLabel("<html>Stir-fried Clams<br>with Chilli Paste<br>400 Baht</html>");
         stirclamsLB.setBounds(20, 750, 300, 300);
         stirclamsLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        stirclamsBTN.setBorderPainted(false);
-        stirclamsBTN.setFocusPainted(false);
         contentPanel.add(stirclamsLB);
         contentPanel.add(stirclamsBTN);
         stirclamsBTN.addActionListener(e -> {
@@ -468,8 +450,6 @@ public class Maincouse {
         JLabel smgLB = new JLabel("<html>Stir-Fried Chinese<br>Morning Glory<br>100 Baht</html>");
         smgLB.setBounds(205, 750, 300, 300);
         smgLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        smgBTN.setBorderPainted(false);
-        smgBTN.setFocusPainted(false);
         contentPanel.add(smgLB);
         contentPanel.add(smgBTN);
         smgBTN.addActionListener(e -> {
@@ -510,8 +490,6 @@ public class Maincouse {
         JLabel cmmLB = new JLabel("<html>Chicken Massaman<br>220 Baht</html>");
         cmmLB.setBounds(20, 920, 300, 300);
         cmmLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        cmmBTN.setBorderPainted(false);
-        cmmBTN.setFocusPainted(false);
         contentPanel.add(cmmLB);
         contentPanel.add(cmmBTN);
         cmmBTN.addActionListener(e -> {
@@ -552,8 +530,6 @@ public class Maincouse {
         JLabel ptLB = new JLabel("<html>Pad Thai<br>70 Baht</html>");
         ptLB.setBounds(205, 920, 300, 300);
         ptLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        ptBTN.setBorderPainted(false);
-        ptBTN.setFocusPainted(false);
         contentPanel.add(ptLB);
         contentPanel.add(ptBTN);
         ptBTN.addActionListener(e -> {
@@ -592,8 +568,6 @@ public class Maincouse {
         cartBTN.setHorizontalAlignment(SwingConstants.CENTER);
         cartBTN.setVerticalAlignment(SwingConstants.CENTER);
         cartBTN.setIcon(new ImageIcon(setCART));
-        cartBTN.setBorderPainted(false);
-        cartBTN.setFocusPainted(false);
 
         contentPanel.add(cartBTN);
         Maincouse.setContentPane(scrollPane);

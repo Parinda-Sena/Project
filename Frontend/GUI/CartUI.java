@@ -10,7 +10,6 @@ import Backend.Discount.DiscountStrategy;
 import Backend.Discount.Getone;
 import Backend.Discount.OnehundredOff;
 import Backend.Food;
-
 public class CartUI {
 
     /*

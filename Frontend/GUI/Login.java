@@ -69,14 +69,10 @@ public class Login {
 						}
 					}
 					if (inputName.equals("admin") && inputPassword.equals("123")) {
-						JOptionPane.showMessageDialog(Login, "Login successful!", "Success",
-								JOptionPane.INFORMATION_MESSAGE);
 						new AdminUI();
 						Login.dispose();
 					}
 					else if (found) {
-						JOptionPane.showMessageDialog(Login, "Login successful!", "Success",
-								JOptionPane.INFORMATION_MESSAGE);
 						String username = inputName;
 						new MainMenu(username);
 						Login.dispose();
@@ -91,6 +87,20 @@ public class Login {
 					JOptionPane.showMessageDialog(Login, "Unable to read user data: " + ex.getMessage(), "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
+			}
+		});
+
+		JButton toWelcome = new JButton("⬅ To Welcome");
+		toWelcome.setBounds(20, 20, 120, 30);
+		Login.add(toWelcome);
+
+		// กดแล้วไปหน้า Login
+		toWelcome.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// เปิดหน้า CartUI
+				new Welcome();
+				Login.dispose();
 			}
 		});
 

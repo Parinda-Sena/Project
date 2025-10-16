@@ -90,8 +90,6 @@ public class Dessert {
         JLabel chocLB = new JLabel("<html>Chocolate Ice Cream<br>29 Baht</html>");
         chocLB.setBounds(20, 70, 300, 300);
         chocLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        chocBTN.setBorderPainted(false);
-        chocBTN.setFocusPainted(false);
         contentPanel.add(chocLB);
         contentPanel.add(chocBTN);
         chocBTN.addActionListener(e -> {
@@ -132,8 +130,6 @@ public class Dessert {
         JLabel donutLB = new JLabel("<html>Double Donut<br>49 Baht</html>");
         donutLB.setBounds(205, 70, 300, 300);
         donutLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        donutBTN.setBorderPainted(false);
-        donutBTN.setFocusPainted(false);
         contentPanel.add(donutLB);
         contentPanel.add(donutBTN);
         donutBTN.addActionListener(e -> {
@@ -174,8 +170,6 @@ public class Dessert {
         JLabel strawLB = new JLabel("<html>Strawberry Ice Cream<br>29 Baht</html>");
         strawLB.setBounds(20, 230, 300, 300);
         strawLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        strawBTN.setBorderPainted(false);
-        strawBTN.setFocusPainted(false);
         contentPanel.add(strawLB);
         contentPanel.add(strawBTN);
         strawBTN.addActionListener(e -> {
@@ -216,8 +210,6 @@ public class Dessert {
         JLabel cheeseLB = new JLabel("<html>Cheesecake<br>69 Baht</html>");
         cheeseLB.setBounds(205, 230, 300, 300);
         cheeseLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        cheeseBTN.setBorderPainted(false);
-        cheeseBTN.setFocusPainted(false);
         contentPanel.add(cheeseLB);
         contentPanel.add(cheeseBTN);
         cheeseBTN.addActionListener(e -> {
@@ -258,8 +250,6 @@ public class Dessert {
         JLabel limeLB = new JLabel("<html>Lemon Ice Cream<br>29 Baht</html>");
         limeLB.setBounds(20, 400, 300, 300);
         limeLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        limeBTN.setBorderPainted(false);
-        limeBTN.setFocusPainted(false);
         contentPanel.add(limeLB);
         contentPanel.add(limeBTN);
         limeBTN.addActionListener(e -> {
@@ -300,8 +290,6 @@ public class Dessert {
         JLabel honeyLB = new JLabel("<html>Honey Toast<br>79 Baht</html>");
         honeyLB.setBounds(205, 400, 300, 300);
         honeyLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        honeyBTN.setBorderPainted(false);
-        honeyBTN.setFocusPainted(false);
         contentPanel.add(honeyLB);
         contentPanel.add(honeyBTN);
         honeyBTN.addActionListener(e -> {
@@ -342,8 +330,6 @@ public class Dessert {
         JLabel vanilaLB = new JLabel("<html>Vanila Ice Cream<br>29 Baht</html>");
         vanilaLB.setBounds(20, 565, 300, 300);
         vanilaLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        vanilaBTN.setBorderPainted(false);
-        vanilaBTN.setFocusPainted(false);
         contentPanel.add(vanilaLB);
         contentPanel.add(vanilaBTN);
         vanilaBTN.addActionListener(e -> {
@@ -384,8 +370,6 @@ public class Dessert {
         JLabel brownLB = new JLabel("<html>Brownies<br>49 Baht</html>");
         brownLB.setBounds(205, 565, 300, 300);
         brownLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        brownBTN.setBorderPainted(false);
-        brownBTN.setFocusPainted(false);
         contentPanel.add(brownLB);
         contentPanel.add(brownBTN);
         brownBTN.addActionListener(e -> {
@@ -426,8 +410,6 @@ public class Dessert {
         JLabel pancakeLB = new JLabel("<html>Pancake<br>49 Baht</html>");
         pancakeLB.setBounds(20, 750, 300, 300);
         pancakeLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        pancakeBTN.setBorderPainted(false);
-        pancakeBTN.setFocusPainted(false);
         contentPanel.add(pancakeLB);
         contentPanel.add(pancakeBTN);
         pancakeBTN.addActionListener(e -> {
@@ -468,8 +450,6 @@ public class Dessert {
         JLabel strawcheeseLB = new JLabel("<html>Strawberry Cheesecake<br>Ice Cream<br>89 Baht</html>");
         strawcheeseLB.setBounds(205, 750, 300, 300);
         strawcheeseLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        strawcheeseBTN.setBorderPainted(false);
-        strawcheeseBTN.setFocusPainted(false);
         contentPanel.add(strawcheeseLB);
         contentPanel.add(strawcheeseBTN);
         strawcheeseBTN.addActionListener(e -> {
@@ -510,8 +490,6 @@ public class Dessert {
         JLabel mintchocLB = new JLabel("<html>Mint Chocolate<br>Ice Cream<br>39 Baht</html>");
         mintchocLB.setBounds(20, 920, 300, 300);
         mintchocLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        mintchocBTN.setBorderPainted(false);
-        mintchocBTN.setFocusPainted(false);
         contentPanel.add(mintchocLB);
         contentPanel.add(mintchocBTN);
         mintchocBTN.addActionListener(e -> {
@@ -552,8 +530,6 @@ public class Dessert {
         JLabel mangoLB = new JLabel("<html>Mango Ice Cream<br>39 Baht</html>");
         mangoLB.setBounds(205, 920, 300, 300);
         mangoLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        mangoBTN.setBorderPainted(false);
-        mangoBTN.setFocusPainted(false);
         contentPanel.add(mangoLB);
         contentPanel.add(mangoBTN);
         mangoBTN.addActionListener(e -> {
@@ -592,8 +568,6 @@ public class Dessert {
         cartBTN.setHorizontalAlignment(SwingConstants.CENTER);
         cartBTN.setVerticalAlignment(SwingConstants.CENTER);
         cartBTN.setIcon(new ImageIcon(setCART));
-        cartBTN.setBorderPainted(false);
-        cartBTN.setFocusPainted(false);
 
         contentPanel.add(cartBTN);
         Dessert.setContentPane(scrollPane);
