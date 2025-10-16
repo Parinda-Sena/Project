@@ -84,8 +84,6 @@ public class Beverage {
         JLabel waterLB = new JLabel("<html>Water<br>15 Baht</html>");
         waterLB.setBounds(20, 70, 300, 300);
         waterLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        waterBTN.setBorderPainted(false);
-        waterBTN.setFocusPainted(false);
         contentPanel.add(waterLB);
         contentPanel.add(waterBTN);
 
@@ -126,8 +124,6 @@ public class Beverage {
         JLabel coffeeLB = new JLabel("<html>Iced Coffee<br>69 Baht</html>");
         coffeeLB.setBounds(205, 70, 300, 300);
         coffeeLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        coffeeBTN.setBorderPainted(false);
-        coffeeBTN.setFocusPainted(false);
         contentPanel.add(coffeeLB);
         contentPanel.add(coffeeBTN);
 
@@ -168,8 +164,6 @@ public class Beverage {
         JLabel strawsodaLB = new JLabel("<html>Strawberry Soda<br>55 Baht</html>");
         strawsodaLB.setBounds(20, 230, 300, 300);
         strawsodaLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        strawsodaBTN.setBorderPainted(false);
-        strawsodaBTN.setFocusPainted(false);
         contentPanel.add(strawsodaLB);
         contentPanel.add(strawsodaBTN);
 
@@ -210,8 +204,6 @@ public class Beverage {
         JLabel icechocLB = new JLabel("<html>Iced Cocoa<br>69 Baht</html>");
         icechocLB.setBounds(205, 230, 300, 300);
         icechocLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        icechocBTN.setBorderPainted(false);
-        icechocBTN.setFocusPainted(false);
         contentPanel.add(icechocLB);
         contentPanel.add(icechocBTN);
 
@@ -252,8 +244,6 @@ public class Beverage {
         JLabel limesodaLB = new JLabel("<html>Lemon Soda<br>55 Baht</html>");
         limesodaLB.setBounds(20, 400, 300, 300);
         limesodaLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        limesodaBTN.setBorderPainted(false);
-        limesodaBTN.setFocusPainted(false);
         contentPanel.add(limesodaLB);
         contentPanel.add(limesodaBTN);
 
@@ -294,8 +284,6 @@ public class Beverage {
         JLabel thaiteaLB = new JLabel("<html>Iced Thai Tea<br>79 Baht</html>");
         thaiteaLB.setBounds(205, 400, 300, 300);
         thaiteaLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        thaiteaBTN.setBorderPainted(false);
-        thaiteaBTN.setFocusPainted(false);
         contentPanel.add(thaiteaLB);
         contentPanel.add(thaiteaBTN);
 
@@ -336,8 +324,6 @@ public class Beverage {
         JLabel greenteaLB = new JLabel("<html>Iced Green Tea<br>69 Baht</html>");
         greenteaLB.setBounds(20, 565, 300, 300);
         greenteaLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        greenteaBTN.setBorderPainted(false);
-        greenteaBTN.setFocusPainted(false);
         contentPanel.add(greenteaLB);
         contentPanel.add(greenteaBTN);
 
@@ -378,8 +364,6 @@ public class Beverage {
         JLabel miloLB = new JLabel("<html>Milo Frappe<br>65 Baht</html>");
         miloLB.setBounds(205, 560, 300, 300);
         miloLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        miloBTN.setBorderPainted(false);
-        miloBTN.setFocusPainted(false);
         contentPanel.add(miloLB);
         contentPanel.add(miloBTN);
 
@@ -420,8 +404,6 @@ public class Beverage {
         JLabel lyncheeLB = new JLabel("<html>Lynchee Soda<br>55 Baht</html>");
         lyncheeLB.setBounds(20, 750, 300, 300);
         lyncheeLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        lyncheeBTN.setBorderPainted(false);
-        lyncheeBTN.setFocusPainted(false);
         contentPanel.add(lyncheeLB);
         contentPanel.add(lyncheeBTN);
 
@@ -462,8 +444,6 @@ public class Beverage {
         JLabel coconutLB = new JLabel("<html>Coconut Smoothie<br>55 Baht</html>");
         coconutLB.setBounds(205, 750, 300, 300);
         coconutLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        coconutBTN.setBorderPainted(false);
-        coconutBTN.setFocusPainted(false);
         contentPanel.add(coconutLB);
         contentPanel.add(coconutBTN);
 
@@ -504,8 +484,6 @@ public class Beverage {
         JLabel strawyoLB = new JLabel("<html>Strawberry Yogurt<br>59 Baht</html>");
         strawyoLB.setBounds(20, 920, 300, 300);
         strawyoLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        strawyoBTN.setBorderPainted(false);
-        strawyoBTN.setFocusPainted(false);
         contentPanel.add(strawyoLB);
         contentPanel.add(strawyoBTN);
 
@@ -546,8 +524,6 @@ public class Beverage {
         JLabel watermelonLB = new JLabel("<html>Watermelon Smoothie<br>65 Baht</html>");
         watermelonLB.setBounds(205, 920, 300, 300);
         watermelonLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        watermelonBTN.setBorderPainted(false);
-        watermelonBTN.setFocusPainted(false);
         contentPanel.add(watermelonLB);
         contentPanel.add(watermelonBTN);
 
@@ -586,8 +562,6 @@ public class Beverage {
         cartBTN.setHorizontalAlignment(SwingConstants.CENTER);
         cartBTN.setVerticalAlignment(SwingConstants.CENTER);
         cartBTN.setIcon(new ImageIcon(setCART));
-        cartBTN.setBorderPainted(false);
-        cartBTN.setFocusPainted(false);
         contentPanel.add(cartBTN);
 
         frame.setContentPane(scrollPane);

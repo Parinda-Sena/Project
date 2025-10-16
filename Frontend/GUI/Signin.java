@@ -121,5 +121,19 @@ public class Signin {
                 }
             }
         });
+
+        JButton toWelcome = new JButton("⬅ To Welcome");
+        toWelcome.setBounds(20, 20, 120, 30);
+        Signin.add(toWelcome);
+
+        // กดแล้วไปหน้า Login
+        toWelcome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // เปิดหน้า CartUI
+                new Welcome();
+                Signin.dispose();
+            }
+        });
     }
 }

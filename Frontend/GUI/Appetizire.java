@@ -1,12 +1,10 @@
 package GUI;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import Backend.CartStore;
 import Backend.Food;
 import Backend.FoodCart;
-
 import Backend.Discount.InvalidOperationException;
 import Backend.Discount.ProductNotFoundException;
 import Backend.AllFood;
@@ -16,7 +14,7 @@ public class Appetizire {
     private AllFood allFood; // ใช้ cart เดียวกับ MainMenu
 
     public Appetizire(String username) {
-        // ✅ โหลดข้อมูลอาหารจากคลาส AllFood (ซึ่งอ่าน CSV มาแล้ว)
+        // โหลดข้อมูลอาหารจากคลาส AllFood (ซึ่งอ่าน CSV มาแล้ว)
         allFood = new AllFood();
 
         JFrame Appetizier = new JFrame("Meow Ordering");
@@ -89,11 +87,8 @@ public class Appetizire {
         JLabel fryLB = new JLabel("<html>French Fries<br>39 Baht</html>");
         fryLB.setBounds(20, 70, 300, 300);
         fryLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        fryBTN.setBorderPainted(false);
-        fryBTN.setFocusPainted(false);
         contentPanel.add(fryLB);
         contentPanel.add(fryBTN);
-
         fryBTN.addActionListener(e -> {
             try {
                 // ✅ ตรวจว่าสินค้านี้ปิดขายไหม ก่อนเพิ่มลงตะกร้า
@@ -133,8 +128,6 @@ public class Appetizire {
         JLabel cpLB = new JLabel("<html>Chicken Pop<br>39 Baht</html>");
         cpLB.setBounds(205, 70, 300, 300);
         cpLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        cpBTN.setBorderPainted(false);
-        cpBTN.setFocusPainted(false);
         contentPanel.add(cpLB);
         contentPanel.add(cpBTN);
 
@@ -176,8 +169,6 @@ public class Appetizire {
         JLabel cnLB = new JLabel("<html>Chicken Nugget<br>39 Baht</html>");
         cnLB.setBounds(20, 230, 300, 300);
         cnLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        cnBTN.setBorderPainted(false);
-        cnBTN.setFocusPainted(false);
         contentPanel.add(cnLB);
         contentPanel.add(cnBTN);
 
@@ -219,8 +210,6 @@ public class Appetizire {
         JLabel blcLB = new JLabel("<html>Boneless Chicken<br>39 Baht</html>");
         blcLB.setBounds(205, 230, 300, 300);
         blcLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        blcBTN.setBorderPainted(false);
-        blcBTN.setFocusPainted(false);
         contentPanel.add(blcLB);
         contentPanel.add(blcBTN);
 
@@ -262,8 +251,6 @@ public class Appetizire {
         JLabel enokiLB = new JLabel("<html>Crispy Deep Fried<br>Enoki Mushroom<br>49 Baht</html>");
         enokiLB.setBounds(20, 400, 300, 300);
         enokiLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        enokiBTN.setBorderPainted(false);
-        enokiBTN.setFocusPainted(false);
         contentPanel.add(enokiLB);
         contentPanel.add(enokiBTN);
 
@@ -305,8 +292,6 @@ public class Appetizire {
         JLabel shrimptempLB = new JLabel("<html>Shrimp Tempura<br>59 Baht</html>");
         shrimptempLB.setBounds(205, 400, 300, 300);
         shrimptempLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        shrimptempBTN.setBorderPainted(false);
-        shrimptempBTN.setFocusPainted(false);
         contentPanel.add(shrimptempLB);
         contentPanel.add(shrimptempBTN);
 
@@ -348,8 +333,6 @@ public class Appetizire {
         JLabel onionLB = new JLabel("<html>Onions Ring<br>59 Baht</html>");
         onionLB.setBounds(20, 565, 300, 300);
         onionLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        onionBTN.setBorderPainted(false);
-        onionBTN.setFocusPainted(false);
         contentPanel.add(onionLB);
         contentPanel.add(onionBTN);
 
@@ -391,8 +374,6 @@ public class Appetizire {
         JLabel rssLB = new JLabel("<html>Red Sausage Fried<br>30 Baht</html>");
         rssLB.setBounds(205, 560, 300, 300);
         rssLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        rssBTN.setBorderPainted(false);
-        rssBTN.setFocusPainted(false);
         contentPanel.add(rssLB);
         contentPanel.add(rssBTN);
         rssBTN.addActionListener(e -> {
@@ -431,8 +412,6 @@ public class Appetizire {
         cartBTN.setHorizontalAlignment(SwingConstants.CENTER);
         cartBTN.setVerticalAlignment(SwingConstants.CENTER);
         cartBTN.setIcon(new ImageIcon(setCART));
-        cartBTN.setBorderPainted(false);
-        cartBTN.setFocusPainted(false);
         contentPanel.add(cartBTN);
         Appetizier.setContentPane(scrollPane);
 

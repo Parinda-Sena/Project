@@ -63,8 +63,6 @@ public class MainMenu {
         JLabel appLabel = new JLabel("Appetizier");
         appLabel.setBounds(26, 80, 300, 300);
         appLabel.setFont(new Font("Arial", Font.BOLD, 13));
-        Appetizier.setBorderPainted(false);
-        Appetizier.setFocusPainted(false);
         mainmenu.add(appLabel);
         mainmenu.add(Appetizier);
         // กดแล้วไปหน้า Appetizier
@@ -91,8 +89,6 @@ public class MainMenu {
         JLabel mainLabel = new JLabel("Main Couse");
         mainLabel.setBounds(113, 80, 300, 300);
         mainLabel.setFont(new Font("Arial", Font.BOLD, 13));
-        Maincouse.setBorderPainted(false);
-        Maincouse.setFocusPainted(false);
         mainmenu.add(mainLabel);
         mainmenu.add(Maincouse);
         // กดแล้วไปหน้า Maincouse
@@ -118,8 +114,6 @@ public class MainMenu {
         JLabel dessertLabel = new JLabel("Dessert");
         dessertLabel.setBounds(213, 80, 300, 300);
         dessertLabel.setFont(new Font("Arial", Font.BOLD, 13));
-        Dessert.setBorderPainted(false);
-        Dessert.setFocusPainted(false);
         mainmenu.add(dessertLabel);
         mainmenu.add(Dessert);
         // กดแล้วไปหน้า Dessert
@@ -145,8 +139,6 @@ public class MainMenu {
         JLabel beverageLabel = new JLabel("Beverage");
         beverageLabel.setBounds(298, 80, 300, 300);
         beverageLabel.setFont(new Font("Arial", Font.BOLD, 13));
-        Beverage.setBorderPainted(false);
-        Beverage.setFocusPainted(false);
         mainmenu.add(beverageLabel);
         mainmenu.add(Beverage);
         // กดแล้วไปหน้า Beverage
@@ -178,8 +170,6 @@ public class MainMenu {
         JLabel pwsLB = new JLabel("<html>Stir-Fried Minced Pork<br>with Basil<br>60 Baht</html>");
         pwsLB.setBounds(20, 270, 300, 300);
         pwsLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        pwsBTN.setBorderPainted(false);
-        pwsBTN.setFocusPainted(false);
         mainmenu.add(pwsLB);
         mainmenu.add(pwsBTN);
 
@@ -221,8 +211,6 @@ public class MainMenu {
         JLabel sfrLB = new JLabel("<html>Seafood Fried Rice<br>70 Baht</html>");
         sfrLB.setBounds(220, 270, 300, 300);
         sfrLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        sfrBTN.setBorderPainted(false);
-        sfrBTN.setFocusPainted(false);
         mainmenu.add(sfrLB);
         mainmenu.add(sfrBTN);
 
@@ -238,7 +226,7 @@ public class MainMenu {
                     return; // ❌ หยุด ไม่ให้เพิ่มลงตะกร้า
                 }
 
-                // ✅ ถ้าพร้อมขายค่อยเพิ่ม
+                // ถ้าพร้อมขายค่อยเพิ่ม
                 String foodId = allFood.getFoodIDByName("Seafood Fried Rice");
                 cart.addFood(foodId, 1);
                 JOptionPane.showMessageDialog(null, "Added to cart.");
@@ -263,8 +251,6 @@ public class MainMenu {
         JLabel tygLB = new JLabel("<html>Tom Yum Goong<br>60 Baht</html>");
         tygLB.setBounds(20, 430, 300, 300);
         tygLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        tygBTN.setBorderPainted(false);
-        tygBTN.setFocusPainted(false);
         mainmenu.add(tygLB);
         mainmenu.add(tygBTN);
 
@@ -305,8 +291,6 @@ public class MainMenu {
         JLabel omrLB = new JLabel("<html>Omlet Rice<br>30 Baht</html>");
         omrLB.setBounds(220, 430, 300, 300);
         omrLB.setFont(new Font("Arial", Font.PLAIN, 14));
-        omrBTN.setBorderPainted(false);
-        omrBTN.setFocusPainted(false);
         mainmenu.add(omrLB);
         mainmenu.add(omrBTN);
 
@@ -346,8 +330,6 @@ public class MainMenu {
         cartBTN.setHorizontalAlignment(SwingConstants.CENTER);
         cartBTN.setVerticalAlignment(SwingConstants.CENTER);
         cartBTN.setIcon(new ImageIcon(setCART));
-        cartBTN.setBorderPainted(false);
-        cartBTN.setFocusPainted(false);
         mainmenu.add(cartBTN);
 
         // กดแล้วไปหน้า CartUI
